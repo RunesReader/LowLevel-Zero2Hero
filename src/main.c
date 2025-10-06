@@ -8,6 +8,11 @@
 #include "parse.h"
 
 void print_usage(char *argv[]) {
+	printf("Usage: %s -n -f <database file>\n", argv[0]);
+	printf("\t -n - create new database file\n");
+	printf("\t -f - (requared) path to database file\n");
+
+	return;
 }
 
 int main(int argc, char *argv[]) { 
@@ -32,12 +37,16 @@ int main(int argc, char *argv[]) {
 			case 'l':
 				list = true;
 				break;
-			// case '?':
-			// 	printf("Unknown option -%c\n", c);
-			// 	break;
 			default:
 				return -1;
 
 		}
+	}
+
+	if (filepath == NULL) {
+		printf("Filepath is a requared argument\n");
+		print_usage(argv);
+
+		return 0;
 	}
 }
