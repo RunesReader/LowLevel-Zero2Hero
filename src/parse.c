@@ -10,6 +10,11 @@
 #include "parse.h"
 
 int create_db_header(struct dbheader_t **headerOut) {
+	if (headerOut == NULL) {
+		printf("Try to dereferencing NULL pointer\n");
+		return STATUS_ERROR;
+	}
+
 	struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
 	if (header == NULL) {
 		perror("Try to calloc");
