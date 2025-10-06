@@ -6,7 +6,6 @@ run: clean default
 # 	./$(TARGET) -f ./mynewdb.db -n 
 # 	./$(TARGET) -f ./mynewdb.db -a "Timmy H.,123 Sheshire Ln.,120"
 	./$(TARGET)
-	./$(TARGET) -f jhdehuheu.db
 
 default: $(TARGET)
 
@@ -19,4 +18,4 @@ $(TARGET): $(OBJ)
 	clang -o $@ $?
 
 obj/%.o : src/%.c
-	clang -c $< -o $@ -Iinclude
+	clang -c $< -o $@ -Iinclude -std=c99 -Wall -pedantic

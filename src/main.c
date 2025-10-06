@@ -32,9 +32,9 @@ int main(int argc, char *argv[]) {
 			case 'l':
 				list = true;
 				break;
-			case '?':
-				printf("Unknown option -%c\n", c);
-				break;
+			// case '?':
+			// 	printf("Unknown option -%c\n", c);
+			// 	break;
 			default:
 				return -1;
 
