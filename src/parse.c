@@ -136,17 +136,18 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *a
 		return STATUS_ERROR;
 	}
 	
-	if (addstring[0] == ',') {
-		printf("You have to fill Name of Employee\n");
-		return STATUS_ERROR;
-	}
+	char *saveptr = NULL; 
+    char *name = strtok_r(addstring, ",", &saveptr);
+    char *addr = strtok_r(NULL, ",", &saveptr);
+    char *hours = strtok_r(NULL, ",", &saveptr);
 
-	char *name = strtok(addstring, ",");
-	char *addr = strtok(NULL, ",");
-	char *hours = strtok(NULL, ",");
+    if (name == NULL || addr == NULL || hours == NULL) {
+        printf("You have to fill all fields of Employee (Name, Address, and Hours are required)\n");
+        return STATUS_ERROR;
+    }
 
 	if (strlen(name) == 0 || strlen(addr) == 0 || strlen(hours) == 0) {
-		printf("You have to fill all fields of Employee\n");
+		printf("Employee fields cannot be empty strings\n");
 		return STATUS_ERROR;
 	}
 
