@@ -130,14 +130,14 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 
 }
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
 	char *name = strtok(addstring, ",");
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
 
-	strncpy(employees[dbhdr->count-1].name, name, sizeof(employees[dbhdr->count-1].name));
-	strncpy(employees[dbhdr->count-1].address, addr, sizeof(employees[dbhdr->count-1].address));
-	employees[dbhdr->count-1].hours = atoi(hours);
+	strncpy(employees[dbhdr->count-1]->name, name, sizeof(employees[dbhdr->count-1]->name));
+	strncpy(employees[dbhdr->count-1]->address, addr, sizeof(employees[dbhdr->count-1]->address));
+	employees[dbhdr->count-1]->hours = atoi(hours);
 
 	return STATUS_SUCCESS;
 }
