@@ -131,6 +131,11 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
+	if (employees == NULL) {
+		printf("Try to dereferencing NULL pointer\n");
+		return STATUS_ERROR;
+	}
+	
 	char *name = strtok(addstring, ",");
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
