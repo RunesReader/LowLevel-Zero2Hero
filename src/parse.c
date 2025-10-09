@@ -137,12 +137,13 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *a
 	}
 	
 	char *name = strtok(addstring, ",");
-	if (strlen(name) == 0) {
-		printf("Name should be\n");
-		return STATUS_ERROR;
-	}
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
+
+	if (strlen(name) == 0 || strlen(addr) == 0 || strlen(hours) == 0) {
+		printf("You have to fill all fields of Employee\n");
+		return STATUS_ERROR;
+	}
 
 	strncpy(employees[dbhdr->count-1].name, name, sizeof(employees[dbhdr->count-1].name));
 	strncpy(employees[dbhdr->count-1].address, addr, sizeof(employees[dbhdr->count-1].address));
