@@ -137,6 +137,10 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *a
 	}
 	
 	char *name = strtok(addstring, ",");
+	if (strlen(name) == 0) {
+		printf("Name should be\n");
+		return STATUS_ERROR;
+	}
 	char *addr = strtok(NULL, ",");
 	char *hours = strtok(NULL, ",");
 
