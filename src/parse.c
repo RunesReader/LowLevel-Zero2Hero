@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <limits.h>
 
 #include "common.h"
 #include "parse.h"
@@ -156,7 +157,29 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 
 	strncpy(employee_array[new_index].name, name, sizeof(employee_array[new_index].name));
 	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
-	employee_array[new_index].hours = atoi(hours);
+
+	char *endptr;
+    long employee_hours_long = strtol(hours, &endptr, 10);
+    if (hours == endptr) {
+        printf("Invalid Hours value provided: No digits found.\n");
+        return STATUS_ERROR;
+    }
+    if (*endptr != '\0') {
+        printf("Invalid Hours value provided: Extra characters after the number.\n");
+        return STATUS_ERROR;
+    }
+    if (employee_hours_long > INT_MAX || employee_hours_long < INT_MIN) {
+        printf("Hours value is too large or too small to be stored.\n");
+        return STATUS_ERROR;
+    }
+
+    int employee_hours = (int)employee_hours_long;
+    if (employee_hours < 0) {
+        printf("Hours cannot be negative.\n");
+        return STATUS_ERROR;
+    }
+
+	employee_array[new_index].hours = employee_hours;
 
 	return STATUS_SUCCESS;
 }
