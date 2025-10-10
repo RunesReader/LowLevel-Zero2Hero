@@ -130,13 +130,16 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 
 }
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
 	if (dbhdr == NULL || employees == NULL || addstring == NULL) {
 		printf("Try to dereferencing NULL pointer\n");
 		return STATUS_ERROR;
 	}
+
+	struct employee_t *employee_array = *employees;
+	int new_index = dbhdr->count-1;
 	
-	char *saveptr = NULL; 
+	char *saveptr = NULL;
     char *name = strtok_r(addstring, ",", &saveptr);
     char *addr = strtok_r(NULL, ",", &saveptr);
     char *hours = strtok_r(NULL, ",", &saveptr);
@@ -151,9 +154,9 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *a
 		return STATUS_ERROR;
 	}
 
-	strncpy(employees[dbhdr->count-1].name, name, sizeof(employees[dbhdr->count-1].name));
-	strncpy(employees[dbhdr->count-1].address, addr, sizeof(employees[dbhdr->count-1].address));
-	employees[dbhdr->count-1].hours = atoi(hours);
+	strncpy(employee_array[new_index].name, name, sizeof(employee_array[new_index].name));
+	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
+	employee_array[new_index].hours = atoi(hours);
 
 	return STATUS_SUCCESS;
 }
