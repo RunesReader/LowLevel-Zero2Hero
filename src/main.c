@@ -18,8 +18,6 @@ void print_usage(char *argv[]) {
 int main(int argc, char *argv[]) { 
 	char *filepath = NULL;
 	char *addstring = NULL;
-	char *portarg = NULL;
-	unsigned short port = 0;
 	bool newfile = false;
 	bool list = false;
 	int c;
@@ -27,7 +25,7 @@ int main(int argc, char *argv[]) {
 	struct dbheader_t *dbhdr = NULL;
 	struct employee_t *employees = NULL;
 
-	while ((c = getopt(argc, argv, "nf:a:lp:")) != STATUS_ERROR) {
+	while ((c = getopt(argc, argv, "nf:a:l")) != STATUS_ERROR) {
 		switch (c) {
 			case 'n':
 				newfile = true;
@@ -37,9 +35,6 @@ int main(int argc, char *argv[]) {
 				break;
 			case 'a':
 				addstring = optarg;
-				break;
-			case 'p':
-				portarg = optarg;
 				break;
 			case 'l':
 				list = true;
@@ -99,7 +94,7 @@ int main(int argc, char *argv[]) {
 		}
 		
 		if (add_employee(dbhdr, &employees, addstring) != STATUS_SUCCESS) {
-			printf("Failed to add employees\n");
+			printf("Failed to add employee\n");
 			return STATUS_ERROR;
 		}
 	}
