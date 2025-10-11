@@ -88,7 +88,16 @@ int main(int argc, char *argv[]) {
 
 	if (addstring) {
 		dbhdr->count++;
-		employees = realloc(employees, dbhdr->count*(sizeof(struct employee_t)));
+		int new_count = dbhdr->count;
+		void *tmp = realloc(employees, new_count*(sizeof(struct employee_t)));
+		if (tmp == NULL) {
+			perror("Realloc");
+			free(employees);
+			return STATUS_ERROR;
+		} else {
+			employees = tmp;
+		}
+		
 		if (add_employee(dbhdr, &employees, addstring) != STATUS_SUCCESS) {
 			printf("Failed to add employees\n");
 			return STATUS_ERROR;
