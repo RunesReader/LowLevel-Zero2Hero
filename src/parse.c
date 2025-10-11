@@ -132,7 +132,7 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
-	if (dbhdr == NULL || employees == NULL || addstring == NULL) {
+	if (dbhdr == NULL || employees == NULL || *employees == NULL || addstring == NULL) {
 		printf("Try to dereferencing NULL pointer\n");
 		return STATUS_ERROR;
 	}
