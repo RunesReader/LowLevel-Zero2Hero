@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <string.h>
 #include <limits.h>
 
