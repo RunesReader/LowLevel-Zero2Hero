@@ -94,7 +94,7 @@ int read_employees(int fd, struct dbheader_t *dbhdr, struct employee_t **employe
 	}
 
 	read(fd, employees, count*sizeof(struct employee_t));
-	for (int i = 0; i < count; ++i) {
+	for (int i = 0; i < count; i++) {
 		employees[i].hours = ntohl(employees[i].hours);
 	}
 
