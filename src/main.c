@@ -99,6 +99,10 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+	if (list) {
+		list_employees(dbhdr, employees);
+	}
+
 	output_file(dbfd, dbhdr, employees);
 
 	return STATUS_SUCCESS;
