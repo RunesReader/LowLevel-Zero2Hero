@@ -159,7 +159,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
-    if (strlen(name) > NAME_LEN || strlen(addr) > ADDRESS_LEN {
+    if (strlen(name) > NAME_LEN || strlen(addr) > ADDRESS_LEN) {
 		printf("Name or address are too long\n");
 		return STATUS_ERROR;
 	}
