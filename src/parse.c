@@ -159,11 +159,6 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
-    // if (strlen(name) > NAME_LEN || strlen(addr) > ADDRESS_LEN) {
-	// 	printf("Name or address are too long\n");
-	// 	return STATUS_ERROR;
-	// }
-
 	if (strlen(name) == 0 || strlen(addr) == 0 || strlen(hours) == 0) {
 		printf("Employee fields cannot be empty strings\n");
 		return STATUS_ERROR;
