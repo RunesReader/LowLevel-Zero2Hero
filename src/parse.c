@@ -149,7 +149,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 	struct employee_t *employee_array = *employees;
 	int new_index = dbhdr->count-1;
 	
-	char *saveptr;
+	char *saveptr = NULL;
     char *name = strtok_r(addstring, ",", &saveptr);
     char *addr = strtok_r(NULL, ",", &saveptr);
     char *hours = strtok_r(NULL, ",", &saveptr);
