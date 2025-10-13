@@ -141,6 +141,11 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 		return STATUS_ERROR;
 	}
 
+	if (strlen(addstring) == 0) {
+		printf("Do not enter empty string\n");
+        return STATUS_ERROR;
+	}
+
 	struct employee_t *employee_array = *employees;
 	int new_index = dbhdr->count-1;
 	
