@@ -157,27 +157,6 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
     
-    char *endptr;
-    long employee_hours_long = strtol(emp_hours, &endptr, 10);
-    if (emp_hours == endptr) {
-        printf("Invalid Hours value provided: No digits found.\n");
-        return STATUS_ERROR;
-    }
-    if (*endptr != '\0') {
-        printf("Invalid Hours value provided: Extra characters after the number.\n");
-        return STATUS_ERROR;
-    }
-    if (employee_hours_long > INT_MAX || employee_hours_long < INT_MIN) {
-        printf("Hours value is too large or too small to be stored.\n");
-        return STATUS_ERROR;
-    }
-
-    int employee_hours = (int)employee_hours_long;
-    if (employee_hours < 0) {
-        printf("Hours cannot be negative.\n");
-        return STATUS_ERROR;
-    }
-
     dbhdr->count++;
     int new_count = dbhdr->count;
     void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
@@ -185,16 +164,16 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         perror("Realloc");
         free(*employees);
         return STATUS_ERROR;
-    } else {
-        *employees = tmp;
     }
+
+    *employees = tmp;
 
     struct employee_t *employee_array = *employees;
     int new_index = dbhdr->count-1;
 
     strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
     strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
-    employee_array[new_index].hours = employee_hours;
+    employee_array[new_index].hours = atoi(emp_hours);
 
     return STATUS_SUCCESS;
 }
