@@ -176,8 +176,8 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     struct employee_t *employee_array = *employees;
     int new_index = dbhdr->count-1;
 
-    strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
-    strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
+    strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name)-1);
+    strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address)-1);
     employee_array[new_index].hours = atoi(emp_hours);
 
     return STATUS_SUCCESS;
