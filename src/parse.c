@@ -156,20 +156,20 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
-	// if (strlen(emp_name) == 0) {
-	// 	printf("Employee Name cannot be empty strings\n");
-	// 	return STATUS_ERROR;
-	// }
+	if (strlen(emp_name) == 0) {
+		printf("Employee Name cannot be empty strings\n");
+		return STATUS_ERROR;
+	}
 
-	// if (strlen(addr) == 0) {
-	// 	printf("Employee Address cannot be empty strings\n");
-	// 	return STATUS_ERROR;
-	// }
+	if (strlen(addr) == 0) {
+		printf("Employee Address cannot be empty strings\n");
+		return STATUS_ERROR;
+	}
 
-	// if (strlen(emp_hours) == 0) {
-	// 	printf("Employee Hours cannot be empty strings\n");
-	// 	return STATUS_ERROR;
-	// }
+	if (strlen(emp_hours) == 0) {
+		printf("Employee Hours cannot be empty strings\n");
+		return STATUS_ERROR;
+	}
 
 	char *endptr;
     long employee_hours_long = strtol(emp_hours, &endptr, 10);
