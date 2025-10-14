@@ -1,4 +1,3 @@
-#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -137,29 +136,28 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
-	if (dbhdr == NULL || employees == NULL || *employees == NULL || addstring == NULL) {
-		printf("Try to dereferencing NULL pointer\n");
-		return STATUS_ERROR;
-	}
-	
-	char *saveptr = NULL;
-    char *emp_name = strtok_r(addstring, ",", &saveptr);
+    if (dbhdr == NULL || employees == NULL || *employees == NULL || addstring == NULL) {
+        printf("Try to dereferencing NULL pointer\n");
+        return STATUS_ERROR;
+    }
+    
+    char *emp_name = strtok(addstring, ",");
     if (emp_name == NULL) {
-    	printf("You have to fill Employee Name\n");
-    	return STATUS_ERROR;
+        printf("You have to fill Employee Name\n");
+        return STATUS_ERROR;
     }
-    char *addr = strtok_r(NULL, ",", &saveptr);
+    char *addr = strtok(NULL, ",");
     if (addr == NULL) {
-    	printf("You have to fill Employee Address\n");
-    	return STATUS_ERROR;
+        printf("You have to fill Employee Address\n");
+        return STATUS_ERROR;
     }
-    char *emp_hours = strtok_r(NULL, ",", &saveptr);
+    char *emp_hours = strtok(NULL, ",");
     if (emp_hours == NULL) {
-    	printf("You have to fill Employee Hours\n");
-    	return STATUS_ERROR;
+        printf("You have to fill Employee Hours\n");
+        return STATUS_ERROR;
     }
-
-	char *endptr;
+    
+    char *endptr;
     long employee_hours_long = strtol(emp_hours, &endptr, 10);
     if (emp_hours == endptr) {
         printf("Invalid Hours value provided: No digits found.\n");
@@ -180,23 +178,23 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
-    
-	void *tmp = realloc(*employees, (sizeof(struct employee_t))*dbhdr->count+1);
-	if (tmp == NULL) {
-		perror("Realloc");
-		free(*employees);
-		return STATUS_ERROR;
-	}
+    dbhdr->count++;
+    int new_count = dbhdr->count;
+    void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
+    if (tmp == NULL) {
+        perror("Realloc");
+        free(*employees);
+        return STATUS_ERROR;
+    } else {
+        *employees = tmp;
+    }
 
-	*employees = tmp;
-	dbhdr->count++;
+    struct employee_t *employee_array = *employees;
+    int new_index = dbhdr->count-1;
 
-	struct employee_t *employee_array = *employees;
-	int new_index = dbhdr->count-1;
+    strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
+    strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
+    employee_array[new_index].hours = employee_hours;
 
-	strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name)-1);
-	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address)-1);
-	employee_array[new_index].hours = employee_hours;
-
-	return STATUS_SUCCESS;
+    return STATUS_SUCCESS;
 }
