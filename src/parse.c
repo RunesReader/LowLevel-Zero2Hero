@@ -145,9 +145,6 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 		printf("Do not enter empty string\n");
         return STATUS_ERROR;
 	}
-
-	struct employee_t *employee_array = *employees;
-	int new_index = dbhdr->count-1;
 	
 	char *saveptr = NULL;
     char *emp_name = strtok_r(addstring, ",", &saveptr);
@@ -163,9 +160,6 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 		printf("Employee fields cannot be empty strings\n");
 		return STATUS_ERROR;
 	}
-
-	strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
-	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
 
 	char *endptr;
     long employee_hours_long = strtol(emp_hours, &endptr, 10);
@@ -188,6 +182,22 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
+    dbhdr->count++;
+	int new_count = dbhdr->count;
+	void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
+	if (tmp == NULL) {
+		perror("Realloc");
+		free(*employees);
+		return STATUS_ERROR;
+	} else {
+		*employees = tmp;
+	}
+
+	struct employee_t *employee_array = *employees;
+	int new_index = dbhdr->count-1;
+
+	strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
+	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
 	employee_array[new_index].hours = employee_hours;
 
 	return STATUS_SUCCESS;
