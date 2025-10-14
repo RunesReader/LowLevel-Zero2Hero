@@ -141,36 +141,23 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 		printf("Try to dereferencing NULL pointer\n");
 		return STATUS_ERROR;
 	}
-
-	if (strlen(addstring) == 0) {
-		printf("Do not enter empty string\n");
-        return STATUS_ERROR;
-	}
 	
 	char *saveptr = NULL;
     char *emp_name = strtok_r(addstring, ",", &saveptr);
-    char *addr = strtok_r(NULL, ",", &saveptr);
-    char *emp_hours = strtok_r(NULL, ",", &saveptr);
-
-    if (emp_name == NULL || addr == NULL || emp_hours == NULL) {
-        printf("You have to fill all fields of Employee (Name, Address, and Hours are required)\n");
-        return STATUS_ERROR;
+    if (emp_name == NULL) {
+    	printf("You have to fill Employee Name\n");
+    	return STATUS_ERROR;
     }
-
-	if (strlen(emp_name) == 0) {
-		printf("Employee Name cannot be empty strings\n");
-		return STATUS_ERROR;
-	}
-
-	if (strlen(addr) == 0) {
-		printf("Employee Address cannot be empty strings\n");
-		return STATUS_ERROR;
-	}
-
-	if (strlen(emp_hours) == 0) {
-		printf("Employee Hours cannot be empty strings\n");
-		return STATUS_ERROR;
-	}
+    char *addr = strtok_r(NULL, ",", &saveptr);
+    if (addr == NULL) {
+    	printf("You have to fill Employee Address\n");
+    	return STATUS_ERROR;
+    }
+    char *emp_hours = strtok_r(NULL, ",", &saveptr);
+    if (emp_hours == NULL) {
+    	printf("You have to fill Employee Hours\n");
+    	return STATUS_ERROR;
+    }
 
 	char *endptr;
     long employee_hours_long = strtol(emp_hours, &endptr, 10);
@@ -193,22 +180,22 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
-    dbhdr->count++;
-	int new_count = dbhdr->count;
-	void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
+    
+	void *tmp = realloc(*employees, (sizeof(struct employee_t))*dbhdr->count+1);
 	if (tmp == NULL) {
 		perror("Realloc");
 		free(*employees);
 		return STATUS_ERROR;
-	} else {
-		*employees = tmp;
 	}
+
+	*employees = tmp;
+	dbhdr->count++;
 
 	struct employee_t *employee_array = *employees;
 	int new_index = dbhdr->count-1;
 
-	strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
-	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
+	strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name)-1);
+	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address)-1);
 	employee_array[new_index].hours = employee_hours;
 
 	return STATUS_SUCCESS;
