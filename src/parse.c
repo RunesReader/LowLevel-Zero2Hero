@@ -150,26 +150,26 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 	int new_index = dbhdr->count-1;
 	
 	char *saveptr = NULL;
-    char *name = strtok_r(addstring, ",", &saveptr);
+    char *emp_name = strtok_r(addstring, ",", &saveptr);
     char *addr = strtok_r(NULL, ",", &saveptr);
-    char *hours = strtok_r(NULL, ",", &saveptr);
+    char *emp_hours = strtok_r(NULL, ",", &saveptr);
 
-    if (name == NULL || addr == NULL || hours == NULL) {
+    if (emp_name == NULL || addr == NULL || emp_hours == NULL) {
         printf("You have to fill all fields of Employee (Name, Address, and Hours are required)\n");
         return STATUS_ERROR;
     }
 
-	if (strlen(name) == 0 || strlen(addr) == 0 || strlen(hours) == 0) {
+	if (strlen(emp_name) == 0 || strlen(addr) == 0 || strlen(emp_hours) == 0) {
 		printf("Employee fields cannot be empty strings\n");
 		return STATUS_ERROR;
 	}
 
-	strncpy(employee_array[new_index].name, name, sizeof(employee_array[new_index].name));
+	strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
 	strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
 
 	char *endptr;
-    long employee_hours_long = strtol(hours, &endptr, 10);
-    if (hours == endptr) {
+    long employee_hours_long = strtol(emp_hours, &endptr, 10);
+    if (emp_hours == endptr) {
         printf("Invalid Hours value provided: No digits found.\n");
         return STATUS_ERROR;
     }
