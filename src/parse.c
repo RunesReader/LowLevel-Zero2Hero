@@ -156,12 +156,18 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
 
-    size_t a = strlen(emp_name);
-    size_t b = strlen(addr);
-    size_t c = strlen(emp_hours);
+	if (strlen(emp_name) == 0) {
+		printf("Employee Name cannot be empty strings\n");
+		return STATUS_ERROR;
+	}
 
-	if (strlen(emp_name) == 0 || strlen(addr) == 0 || strlen(emp_hours) == 0) {
-		printf("Employee fields cannot be empty strings\n");
+	if (strlen(addr) == 0) {
+		printf("Employee Address cannot be empty strings\n");
+		return STATUS_ERROR;
+	}
+
+	if (strlen(emp_hours) == 0) {
+		printf("Employee Hours cannot be empty strings\n");
 		return STATUS_ERROR;
 	}
 
