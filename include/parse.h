@@ -5,14 +5,14 @@
 #define NAME_LEN 256
 #define ADDRESS_LEN 256
 
-struct dbheader_t {
+struct __attribute__((__packed__)) dbheader_t {
 	unsigned int magic;
 	unsigned short version;
 	unsigned short count;
 	unsigned int filesize;
 };
 
-struct employee_t {
+struct __attribute__((__packed__)) employee_t {
 	char name[NAME_LEN];
 	char address[ADDRESS_LEN];
 	unsigned int hours;
