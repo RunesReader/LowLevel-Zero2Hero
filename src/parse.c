@@ -192,5 +192,5 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
 
     *employees = employee_array;
 
-    return STATUS_ERROR;
+    return STATUS_SUCCESS;
 }
