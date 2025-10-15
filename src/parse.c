@@ -176,7 +176,8 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         return STATUS_ERROR;
     }
     
-    void *tmp = realloc(*employees, (dbhdr->count + 1)*(sizeof(struct employee_t)));
+    int new_count= dbhdr->count + 1;
+    void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
     if (tmp == NULL) {
         perror("Realloc");
         free(local_copy);
@@ -194,6 +195,8 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address) - 1);
     employee_array[new_index].address[sizeof(employee_array[new_index].address) - 1] = '\0';
     employee_array[new_index].hours = atoi(emp_hours);
+
+    *employees = employee_array;
 
     free(local_copy);
 
