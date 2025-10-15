@@ -156,7 +156,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         printf("Try to dereferencing NULL pointer\n");
         return STATUS_ERROR;
     }
-    
+    return STATUS_ERROR;
     char *emp_name = strtok(addstring, ",");
     if (emp_name == NULL) {
         printf("You have to fill Employee Name\n");
