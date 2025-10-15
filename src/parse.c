@@ -114,6 +114,11 @@ int output_file(int fd, struct dbheader_t *dbhdr, struct employee_t *employees) 
 		return STATUS_ERROR;
 	}
 
+	if (dbhdr == NULL || employees == NULL) {
+        printf("Try to dereferencing NULL pointer\n");
+        return STATUS_ERROR;
+    }
+
 	int realcount = dbhdr->count;
 
 	dbhdr->version = htons(dbhdr->version);
