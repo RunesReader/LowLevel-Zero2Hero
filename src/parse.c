@@ -173,7 +173,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     
     dbhdr->count++;
     int new_count = dbhdr->count;
-    void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
+    void *tmp = realloc(*employees, (new_count + 1)*(sizeof(struct employee_t)));
     if (tmp == NULL) {
         perror("Realloc");
         free(local_copy);
