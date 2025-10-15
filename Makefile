@@ -18,4 +18,4 @@ $(TARGET): $(OBJ)
 	clang -o $@ $?
 
 obj/%.o : src/%.c
-	clang -c $< -o $@ -Iinclude -std=c99 -Wall -pedantic -g
+	clang -c $< -o $@ -Iinclude -std=c99 -Wall -g
