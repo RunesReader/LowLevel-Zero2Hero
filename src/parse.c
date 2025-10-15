@@ -85,6 +85,11 @@ int read_employees(int fd, struct dbheader_t *dbhdr, struct employee_t **employe
 		return STATUS_ERROR;
 	}
 
+	if (dbhdr == NULL || employeesOut == NULL) {
+        printf("Try to dereferencing NULL pointer\n");
+        return STATUS_ERROR;
+    }
+
 	int count = dbhdr->count;
 	struct employee_t *employees = calloc(count, sizeof(struct employee_t));
 	if (employees == NULL) {
