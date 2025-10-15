@@ -145,20 +145,29 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         printf("Try to dereferencing NULL pointer\n");
         return STATUS_ERROR;
     }
+
+    char *local_copy = strdup(addstring);
+    if (local_copy == NULL) {
+        perror("strdup");
+        return STATUS_ERROR;
+    }
     
-    char *emp_name = strtok(addstring, ",");
+    char *emp_name = strtok(local_copy, ",");
     if (emp_name == NULL) {
         printf("You have to fill Employee Name\n");
+        free(local_copy);
         return STATUS_ERROR;
     }
     char *addr = strtok(NULL, ",");
     if (addr == NULL) {
         printf("You have to fill Employee Address\n");
+        free(local_copy);
         return STATUS_ERROR;
     }
     char *emp_hours = strtok(NULL, ",");
     if (emp_hours == NULL) {
         printf("You have to fill Employee Hours\n");
+        free(local_copy);
         return STATUS_ERROR;
     }
     
@@ -167,18 +176,22 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
     if (tmp == NULL) {
         perror("Realloc");
-        free(*employees);
+        free(local_copy);
         return STATUS_ERROR;
     }
 
     *employees = tmp;
 
     struct employee_t *employee_array = *employees;
-    int new_index = dbhdr->count-1;
+    int new_index = dbhdr->count - 1;
 
-    strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name));
-    strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address));
+    strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name) - 1);
+    employee_array[new_index].name[sizeof(employee_array[new_index].name) - 1] = '\0';
+    strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address) - 1);
+    employee_array[new_index].address[sizeof(employee_array[new_index].address) - 1] = '\0';
     employee_array[new_index].hours = atoi(emp_hours);
+
+    free(local_copy);
 
     return STATUS_SUCCESS;
 }
