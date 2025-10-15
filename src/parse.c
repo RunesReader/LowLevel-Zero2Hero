@@ -177,19 +177,17 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     }
     
     int new_count= dbhdr->count + 1;
-    void *tmp = realloc(*employees, new_count*(sizeof(struct employee_t)));
-    if (tmp == NULL) {
+    struct employee_t *employee_array = *employees;
+    void employee_array = realloc(*employees, new_count*(sizeof(struct employee_t)));
+    if (employee_array == NULL) {
         perror("Realloc");
         free(local_copy);
         return STATUS_ERROR;
     }
 
     dbhdr->count++;
-    *employees = tmp;
-
-    struct employee_t *employee_array = *employees;
+    
     int new_index = dbhdr->count - 1;
-
     strncpy(employee_array[new_index].name, emp_name, sizeof(employee_array[new_index].name) - 1);
     employee_array[new_index].name[sizeof(employee_array[new_index].name) - 1] = '\0';
     strncpy(employee_array[new_index].address, addr, sizeof(employee_array[new_index].address) - 1);
