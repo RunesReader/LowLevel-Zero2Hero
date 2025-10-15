@@ -150,38 +150,28 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
         printf("Try to dereferencing NULL pointer\n");
         return STATUS_ERROR;
     }
-
-    char *local_copy = strdup(addstring);
-    if (local_copy == NULL) {
-        perror("strdup");
-        return STATUS_ERROR;
-    }
     
-    char *emp_name = strtok(local_copy, ",");
+    char *emp_name = strtok(addstring, ",");
     if (emp_name == NULL) {
         printf("You have to fill Employee Name\n");
-        free(local_copy);
         return STATUS_ERROR;
     }
     char *addr = strtok(NULL, ",");
     if (addr == NULL) {
         printf("You have to fill Employee Address\n");
-        free(local_copy);
         return STATUS_ERROR;
     }
     char *emp_hours = strtok(NULL, ",");
     if (emp_hours == NULL) {
         printf("You have to fill Employee Hours\n");
-        free(local_copy);
         return STATUS_ERROR;
     }
     
     int new_count= dbhdr->count + 1;
     struct employee_t *employee_array = *employees;
-    void employee_array = realloc(*employees, new_count*(sizeof(struct employee_t)));
+    employee_array = realloc(*employees, new_count*(sizeof(struct employee_t)));
     if (employee_array == NULL) {
         perror("Realloc");
-        free(local_copy);
         return STATUS_ERROR;
     }
 
@@ -195,8 +185,6 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     employee_array[new_index].hours = atoi(emp_hours);
 
     *employees = employee_array;
-
-    free(local_copy);
 
     return STATUS_SUCCESS;
 }
